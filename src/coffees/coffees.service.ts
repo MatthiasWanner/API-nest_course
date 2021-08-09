@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Coffee } from './entities/coffee.entity';
 
@@ -26,7 +26,7 @@ export class CoffeesService {
   findOne(id: string): Coffee {
     const coffee = this.coffees.find((item) => item.id === +id);
     if (!coffee) {
-      throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(`Coffee #${id} not found`);
     }
     return coffee;
   }
