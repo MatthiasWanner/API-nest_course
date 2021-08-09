@@ -1,10 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 
@@ -21,8 +21,20 @@ export class CoffeesController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   createCoffee(@Body() body) {
     return body;
+  }
+
+  @Patch(':id')
+  updateCoffee(@Param('id') id: string, @Body() body) {
+    return {
+      message: `This route update coffee #${id}`,
+      body: body,
+    };
+  }
+
+  @Delete(':id')
+  deleteCoffee(@Param('id') id: string) {
+    return `This route remove coffee #${id}`;
   }
 }
