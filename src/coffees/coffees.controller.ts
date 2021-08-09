@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -8,8 +8,10 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  getCoffee(@Param('id') id: string) {
-    return `This route return coffee #${id}`;
+  getCoffee(@Param('id') id: string, @Res() res) {
+    return res.status(200).json({
+      message: `This route return coffee #${id}`,
+    });
   }
 
   @Post()
