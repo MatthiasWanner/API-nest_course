@@ -19,6 +19,6 @@ export class Coffee {
   origin: string;
 
   @JoinTable() // 👈 Join the 2 tables - only the OWNER-side does this.
-  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees)
+  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees, { cascade: true })
   flavors: Flavor[];
 }
