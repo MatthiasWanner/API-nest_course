@@ -23,7 +23,7 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  getCoffee(@Param('id') id: string) {
+  getCoffee(@Param('id') id: number) {
     return this.coffeesService.findOne(id);
   }
 
@@ -34,14 +34,14 @@ export class CoffeesController {
 
   @Patch(':id')
   updateCoffee(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateCoffeeDto: UpdateCoffeeDto,
   ) {
     return this.coffeesService.update(id, updateCoffeeDto);
   }
 
   @Delete(':id')
-  deleteCoffee(@Param('id') id: string) {
+  deleteCoffee(@Param('id') id: number) {
     return this.coffeesService.remove(id);
   }
 }
