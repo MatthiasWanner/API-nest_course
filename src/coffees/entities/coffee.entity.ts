@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Flavor } from './flavor.entity';
 
 @Entity('coffees') // sql table will be `coffees`. Without argument, it will be class name in lowercase === 'coffee'.
 export class Coffee {
@@ -11,6 +12,6 @@ export class Coffee {
   @Column()
   origin: string;
 
-  @Column('json', { nullable: true })
-  flavors: string[];
+  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees)
+  flavors: Flavor[];
 }
