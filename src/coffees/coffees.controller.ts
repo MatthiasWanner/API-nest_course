@@ -8,7 +8,7 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  getCoffee(@Param() params) {
-    return `This route return coffee #${params.id}`;
+  getCoffee(@Param('id') id: string) {
+    return `This route return coffee #${id}`;
   }
 }
