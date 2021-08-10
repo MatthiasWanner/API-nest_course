@@ -8,17 +8,16 @@ import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
 
-// Example of classes that can de provided
-export class ConfigService {}
-export class DevelopmentConfigService {}
-export class ProductionConfigService {}
-
 // Classe with logic implementation
 @Injectable()
 export class CoffeeBrandsFactory {
-  create(): string[] {
+  // Note "async" here, and Promise/Async event inside the Factory function
+  // Could be a database connection / API call / etc
+  // In our case we're just "mocking" this type of event with a Promise
+  async create(): Promise<string[]> {
     // Your logic here
-    return ['buddy brew', 'nescafe'];
+    const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+    return coffeeBrands;
   }
 }
 
@@ -28,18 +27,14 @@ export class CoffeeBrandsFactory {
   providers: [
     CoffeesService,
     CoffeeBrandsFactory,
+    // Asynchronous "useFactory" (async provider example)
     {
       provide: COFFEE_BRANDS,
-      useFactory: (coffeeBrandsFactory: CoffeeBrandsFactory) =>
-        coffeeBrandsFactory.create(),
+      useFactory: (coffeeBrandsFactory: CoffeeBrandsFactory) => {
+        console.log('[!] Async factory'); // Note this console.log is not async and logged directly
+        return coffeeBrandsFactory.create(); // This method is async and logged later. It don't block the app
+      },
       inject: [CoffeeBrandsFactory],
-    },
-    {
-      provide: ConfigService,
-      useClass:
-        process.env.NODE_ENV === 'development'
-          ? DevelopmentConfigService
-          : ProductionConfigService,
     },
   ],
   exports: [CoffeesService],
