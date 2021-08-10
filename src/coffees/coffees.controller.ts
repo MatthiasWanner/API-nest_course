@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
   Query,
-  SetMetadata,
 } from '@nestjs/common';
+import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -20,7 +20,7 @@ export class CoffeesController {
     console.log('CoffeesController instancied');
   }
 
-  @SetMetadata('isPublic', true)
+  @Public()
   @Get()
   getCoffees(@Query() paginationQuery: PaginationQueryDto) {
     //const { limit, offset } = paginationQuery;
