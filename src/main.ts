@@ -9,6 +9,9 @@ async function bootstrap() {
       whitelist: true, // Enabling "whitelist" feature of ValidationPipe
       forbidNonWhitelisted: true, // Throw errors when whitelisted properties are found
       transform: true, // Enabling auto transform feature of ValidationPipe
+      transformOptions: {
+        enableImplicitConversion: true, // Enabling implicit conversion feature of ValidationPipe
+      },
     }),
   );
   await app.listen(3000);
