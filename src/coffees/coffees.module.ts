@@ -35,7 +35,6 @@ export class CoffeeBrandsFactory {
         return coffeeBrandsFactory.create(); // This method is async and logged later. It don't block the app
       },
       inject: [CoffeeBrandsFactory],
-      scope: Scope.TRANSIENT, // It possible to define scope when calling provider
     },
   ],
   exports: [CoffeesService],
