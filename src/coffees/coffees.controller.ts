@@ -20,7 +20,7 @@ export class CoffeesController {
     console.log('CoffeesController instancied');
   }
 
-  @Public()
+  @Public() // If you comment this line, you have to set Authorization header to access this method
   @Get()
   getCoffees(@Query() paginationQuery: PaginationQueryDto) {
     //const { limit, offset } = paginationQuery;
