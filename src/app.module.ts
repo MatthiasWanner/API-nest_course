@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import * as Joi from '@hapi/joi';
-import appConfig from './config/app.config';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import appConfig from './config/app.config';
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
       }),
-      load: [appConfig],
     }), // Config module is required to read environment variables
     TypeOrmModule.forRoot(),
   ],

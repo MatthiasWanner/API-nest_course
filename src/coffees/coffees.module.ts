@@ -7,8 +7,6 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
-import { ConfigModule } from '@nestjs/config';
-import coffeesConfig from './config/coffees.config';
 
 // Classe with logic implementation
 @Injectable()
@@ -24,24 +22,9 @@ export class CoffeeBrandsFactory {
 }
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Coffee, Flavor, Event]),
-    ConfigModule.forFeature(coffeesConfig),
-  ],
+  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
   controllers: [CoffeesController],
-  providers: [
-    CoffeesService,
-    CoffeeBrandsFactory,
-    // Asynchronous "useFactory" (async provider example)
-    {
-      provide: COFFEE_BRANDS,
-      useFactory: (coffeeBrandsFactory: CoffeeBrandsFactory) => {
-        console.log('[!] Async factory'); // Note this console.log is not async and logged directly
-        return coffeeBrandsFactory.create(); // This method is async and logged later. It don't block the app
-      },
-      inject: [CoffeeBrandsFactory],
-    },
-  ],
+  providers: [CoffeesService],
   exports: [CoffeesService],
 })
 export class CoffeesModule {}
