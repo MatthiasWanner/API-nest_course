@@ -24,7 +24,7 @@ export class CoffeesService {
   ) {
     console.log('CoffeesService instancied');
     console.log(coffeeBrands);
-    const databaseHost = this.configService.get('coffees'); // output {foo: 'bar'} in terminal
+    const databaseHost = this.configService.get('coffees.foo'); // output 'bar' in terminal
     console.log(databaseHost);
   }
 
