@@ -6,6 +6,7 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
+import { COFFEE_BRANDS } from './coffees.constants';
 
 // Our mock implementation
 export class MockCoffeesService {}
@@ -14,9 +15,10 @@ export class MockCoffeesService {}
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])], // 👈 Adding Coffee Entity here to TypeOrmModule.forFeature
   controllers: [CoffeesController],
   providers: [
+    CoffeesService,
     {
-      provide: CoffeesService,
-      useValue: new MockCoffeesService(),
+      provide: COFFEE_BRANDS,
+      useValue: ['buddy brew', 'nescafe'],
     },
   ],
   exports: [CoffeesService],
