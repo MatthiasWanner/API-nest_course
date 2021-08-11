@@ -3,12 +3,27 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
+  RequestTimeoutException,
 } from '@nestjs/common';
-import { Observable, timeout } from 'rxjs';
+import {
+  catchError,
+  Observable,
+  throwError,
+  timeout,
+  TimeoutError,
+} from 'rxjs';
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(timeout(3000)); // this method will throw an error if the response takes more than 3 seconds
+    return next.handle().pipe(
+      timeout(3000),
+      catchError((err) => {
+        if (err instanceof TimeoutError) {
+          return throwError(new RequestTimeoutException());
+        }
+        return throwError(err);
+      }),
+    ); // this method will throw an error if the response takes more than 3 seconds
   }
 }
