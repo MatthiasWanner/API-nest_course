@@ -27,4 +27,17 @@ describe('CoffeesService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  describe('findOne', () => {
+    describe('when the coffee exists', () => {
+      it('should return one coffee', async () => {
+        const coffeeId = '1';
+        const expectedCoffee = {};
+
+        const foundCoffee = await service.findOne(+coffeeId);
+
+        expect(foundCoffee).toEqual(expectedCoffee);
+      });
+    });
+  });
 });
