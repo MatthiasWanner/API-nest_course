@@ -1,10 +1,11 @@
-import { INestApplication } from '@nestjs/common';
+import { HttpServer, INestApplication, ValidationPipe } from '@nestjs/common';
 import { TestingModule, Test } from '@nestjs/testing';
 import { CoffeesModule } from '../../src/coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 describe('[Feature] Coffees - /coffees', () => {
   let app: INestApplication;
+  let httpServer: HttpServer;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -24,7 +25,19 @@ describe('[Feature] Coffees - /coffees', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        forbidNonWhitelisted: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+      }),
+    );
+
     await app.init();
+    httpServer = app.getHttpServer();
   });
 
   it.todo('Create [POST /]');
