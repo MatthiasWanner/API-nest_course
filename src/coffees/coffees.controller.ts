@@ -8,6 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
@@ -31,11 +32,13 @@ export class CoffeesController {
     return this.coffeesService.findOne(id);
   }
 
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post()
   createCoffee(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeesService.create(createCoffeeDto);
   }
 
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Patch(':id')
   updateCoffee(
     @Param('id') id: number,
@@ -44,6 +47,7 @@ export class CoffeesController {
     return this.coffeesService.update(id, updateCoffeeDto);
   }
 
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
   deleteCoffee(@Param('id') id: number) {
     return this.coffeesService.remove(id);
