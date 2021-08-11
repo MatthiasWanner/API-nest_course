@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
@@ -14,6 +14,8 @@ import { LoggingMiddleware } from './middlewares/logging.middleware';
 })
 export class CommonModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggingMiddleware).exclude('coffees').forRoutes('*'); // Apply in all routes except coffees
+    consumer
+      .apply(LoggingMiddleware)
+      .forRoutes({ path: 'coffees', method: RequestMethod.GET }); // Apply in all routes except coffees
   }
 }
