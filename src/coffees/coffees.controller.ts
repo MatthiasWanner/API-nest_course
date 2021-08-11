@@ -24,7 +24,6 @@ export class CoffeesController {
   @Get()
   async getCoffees(@Query() paginationQuery: PaginationQueryDto) {
     //const { limit, offset } = paginationQuery;
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // force this method to wait 5s to send response
     return this.coffeesService.findAll(paginationQuery);
   }
 
