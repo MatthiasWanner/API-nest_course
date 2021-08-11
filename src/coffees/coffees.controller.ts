@@ -8,6 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
@@ -23,8 +24,11 @@ export class CoffeesController {
 
   @Public() // If you comment this line, you have to set Authorization header to access this method
   @Get()
-  async getCoffees(@Query() paginationQuery: PaginationQueryDto) {
-    //const { limit, offset } = paginationQuery;
+  async getCoffees(
+    @Protocol() protocol: string, // Our new @Protocol custom decorator just return type of request protocol in terminal
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    console.log(protocol);
     return this.coffeesService.findAll(paginationQuery);
   }
 
