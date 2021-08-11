@@ -8,9 +8,11 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { CoffeesModule } from '../../src/coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as request from 'supertest';
+import { UpdateCoffeeDto } from 'src/coffees/dto/update-coffee.dto';
+import { CreateCoffeeDto } from 'src/coffees/dto/create-coffee.dto';
 
 describe('[Feature] Coffees - /coffees', () => {
-  const coffee = {
+  const coffee: CreateCoffeeDto = {
     name: 'Shipwreck Roast',
     origin: 'Buddy Brew',
     flavors: ['chocolate', 'vanilla'],
@@ -68,10 +70,53 @@ describe('[Feature] Coffees - /coffees', () => {
       });
   });
 
-  it.todo('Get all [GET /]');
-  it.todo('Get one [GET /:id]');
-  it.todo('Update one [PATCH /:id]');
-  it.todo('Delete one [DELETE /:id]');
+  it('Get all [GET /]', () => {
+    return request(httpServer)
+      .get('/coffees')
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.length).toBeGreaterThan(0);
+        expect(body[0]).toEqual(expectedPartialCoffee);
+      });
+  });
+
+  it('Get one [GET /:id]', () => {
+    return request(httpServer)
+      .get('/coffees/1')
+      .then(({ body }) => {
+        expect(body).toEqual(expectedPartialCoffee);
+      });
+  });
+
+  it('Update one [PATCH /:id]', () => {
+    const updateCoffeeDto: UpdateCoffeeDto = {
+      ...coffee,
+      name: 'New and Improved Shipwreck Roast',
+    };
+    return request(httpServer)
+      .patch('/coffees/1')
+      .send(updateCoffeeDto)
+      .then(({ body }) => {
+        expect(body.name).toEqual(updateCoffeeDto.name);
+
+        return request(httpServer)
+          .get('/coffees/1')
+          .then(({ body }) => {
+            expect(body.name).toEqual(updateCoffeeDto.name);
+          });
+      });
+  });
+
+  it('Delete one [DELETE /:id]', () => {
+    return request(httpServer)
+      .delete('/coffees/1')
+      .expect(HttpStatus.OK)
+      .then(() => {
+        return request(httpServer)
+          .get('/coffees/1')
+          .expect(HttpStatus.NOT_FOUND);
+      });
+  });
 
   afterAll(async () => {
     await app.close();
