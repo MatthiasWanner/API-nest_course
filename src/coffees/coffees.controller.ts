@@ -22,8 +22,9 @@ export class CoffeesController {
 
   @Public() // If you comment this line, you have to set Authorization header to access this method
   @Get()
-  getCoffees(@Query() paginationQuery: PaginationQueryDto) {
+  async getCoffees(@Query() paginationQuery: PaginationQueryDto) {
     //const { limit, offset } = paginationQuery;
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // force this method to wait 5s to send response
     return this.coffeesService.findAll(paginationQuery);
   }
 
