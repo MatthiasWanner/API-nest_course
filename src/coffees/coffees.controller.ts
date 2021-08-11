@@ -24,11 +24,7 @@ export class CoffeesController {
 
   @Public() // If you comment this line, you have to set Authorization header to access this method
   @Get()
-  async getCoffees(
-    @Protocol() protocol: string, // Our new @Protocol custom decorator just return type of request protocol in terminal
-    @Query() paginationQuery: PaginationQueryDto,
-  ) {
-    console.log(protocol);
+  async getCoffees(@Query() paginationQuery: PaginationQueryDto) {
     return this.coffeesService.findAll(paginationQuery);
   }
 
