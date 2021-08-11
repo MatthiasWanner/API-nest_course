@@ -14,6 +14,6 @@ import { LoggingMiddleware } from './middlewares/logging.middleware';
 })
 export class CommonModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggingMiddleware).forRoutes('coffees');
+    consumer.apply(LoggingMiddleware).exclude('coffees').forRoutes('*'); // Apply in all routes except coffees
   }
 }
