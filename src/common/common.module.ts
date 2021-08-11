@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
@@ -14,6 +14,6 @@ import { LoggingMiddleware } from './middlewares/logging.middleware';
 })
 export class CommonModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggingMiddleware).forRoutes('*');
+    consumer.apply(LoggingMiddleware).forRoutes('coffees');
   }
 }
