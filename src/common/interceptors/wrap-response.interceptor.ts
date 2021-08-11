@@ -9,11 +9,14 @@ import { map, Observable } from 'rxjs';
 @Injectable()
 export class WrapResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('Before the method');
+    console.log('Wrap Response interceptor before the method');
     return next.handle().pipe(
       map((data) => {
-        console.log('After the method', { test: data });
-        return { test: data };
+        return {
+          interceptor: 'wrap-response',
+          calling: 'After the method',
+          response: data,
+        };
       }),
     ); // map method is able to change the response content. Now response is an object named "test"
   }
