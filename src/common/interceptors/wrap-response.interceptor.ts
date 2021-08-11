@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class WrapResponseInterceptor implements NestInterceptor {
@@ -12,6 +12,6 @@ export class WrapResponseInterceptor implements NestInterceptor {
     console.log('Before the method');
     return next
       .handle()
-      .pipe(tap((data) => console.log('After the method', data))); // tap method does not alter data response
+      .pipe(map((data) => console.log('After the method', { test: data }))); // map method is able to change the response content. Now response is an object named "test"
   }
 }
