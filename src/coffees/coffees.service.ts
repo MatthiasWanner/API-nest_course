@@ -54,4 +54,27 @@ export class CoffeesService {
     const coffee = await this.findOne(id); // Note we use the findOne method already written that manage error: DRY 💡
     return coffee.remove();
   }
+
+  async recommendCoffee(coffee: Coffee) {
+    const session = await this.connection.startSession();
+    session.startTransaction();
+
+    try {
+      coffee.recommendations++;
+
+      const recommendEvent = new this.eventModel({
+        name: 'recommend_coffee',
+        type: 'coffee',
+        payload: { coffeeId: coffee.id },
+      });
+      await recommendEvent.save({ session });
+      await coffee.save({ session });
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+    } finally {
+      await session.endSession();
+    }
+  }
 }
