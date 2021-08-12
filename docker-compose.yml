@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mongo_db:
+    image: mongo:latest # container image to be used
+    restart: always
+    ports: # expose ports in “host:container” format
+      - 27017:27017
+    environment: #env variables to pass into the container
+      MONGODB_DATABASE: nest-course
+      MONGODB_DATABASE: root
+      MONGODB_USERNAME: root
+    volumes: 
+      - nest_course_data:/data/db
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes: 
+  nest_course_data:
