@@ -9,7 +9,7 @@ import { CoffeesModule } from './coffees/coffees.module';
   imports: [
     CoffeesModule,
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.DB_URL),
+    MongooseModule.forRoot(process.env.DB_URL), // DB URL is set in .env (mongodb://localhost:27017/nest-course)
   ],
   controllers: [AppController],
   providers: [AppService],
